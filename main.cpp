@@ -60,6 +60,7 @@ int main() {
 
   for (int i = 0; i < numCenters; i++) {
     map<string, array<double, 2>> center = arr[i](p1, p2, p3);
+    centers.insert({center.begin()->first, center.begin()->second});
     cout << center.begin()->first << ": " << center.begin()->second[0] << " "
          << center.begin()->second[1] << "\n";
   }
