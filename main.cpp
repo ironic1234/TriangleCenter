@@ -1,10 +1,11 @@
 #include <array>
 #include <iostream>
+#include <map>
 #include <math.h>
 using namespace std;
 
-array<double, 2> incenter(array<double, 2> p1, array<double, 2> p2,
-                          array<double, 2> p3) {
+map<string, array<double, 2>> incenter(array<double, 2> p1, array<double, 2> p2,
+                                       array<double, 2> p3) {
   double x1 = p1[0], y1 = p1[1];
   double x2 = p2[0], y2 = p2[1];
   double x3 = p3[0], y3 = p3[1];
@@ -20,16 +21,20 @@ array<double, 2> incenter(array<double, 2> p1, array<double, 2> p2,
   incenterPoint[0] = incenterX;
   incenterPoint[1] = incenterY;
 
-  return incenterPoint;
+  map<string, array<double, 2>> returnMap = {{"Incenter", incenterPoint}};
+
+  return returnMap;
 }
 
-array<double, 2> centroid(array<double, 2> p1, array<double, 2> p2,
-                          array<double, 2> p3) {
+map<string, array<double, 2>> centroid(array<double, 2> p1, array<double, 2> p2,
+                                       array<double, 2> p3) {
   array<double, 2> centroidPoint;
   centroidPoint[0] = (p1[0] + p2[0] + p3[0]) / 3;
   centroidPoint[1] = (p1[1] + p2[1] + p3[1]) / 3;
 
-  return centroidPoint;
+  map<string, array<double, 2>> returnMap = {{"Centroid", centroidPoint}};
+
+  return returnMap;
 }
 
 int main() {
@@ -45,18 +50,18 @@ int main() {
   cout << "Enter coordinates of point 3 (x y): ";
   cin >> p3[0] >> p3[1];
 
-  array<double, 2> guess;
-  cout << "Enter initial guess of center (x y): ";
-  cin >> guess[0] >> guess[1];
-
-  array<double, 2> (*arr[2])(array<double, 2>, array<double, 2>,
-                             array<double, 2>) = {incenter, centroid};
+  map<string, array<double, 2>> (*arr[2])(array<double, 2>, array<double, 2>,
+                                          array<double, 2>) = {incenter,
+                                                               centroid};
 
   int numCenters = sizeof(arr) / sizeof(arr[0]);
 
+  map<string, array<double, 2>> centers;
+
   for (int i = 0; i < numCenters; i++) {
-    array<double, 2> center = arr[i](p1, p2, p3);
-    cout << "Center: " << center[0] << " " << center[1] << "\n";
+    map<string, array<double, 2>> center = arr[i](p1, p2, p3);
+    cout << center.begin()->first << ": " << center.begin()->second[0] << " "
+         << center.begin()->second[1] << "\n";
   }
 
   return 0;
