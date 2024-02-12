@@ -1,5 +1,4 @@
-.vscode/
-main.exe
-main
-.cache/
-replit.nix
+*
+
+!.gitignore
+!*.cpp
