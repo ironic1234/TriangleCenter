@@ -69,6 +69,31 @@ map<string, array<double, 2>> circumcenter(array<double, 2> p1,
   return returnMap;
 }
 
+map<string, array<double, 2>> orthocenter(array<double, 2> p1,
+                                          array<double, 2> p2,
+                                          array<double, 2> p3) {
+  array<double, 2> orthocenterPoint;
+
+  double x1 = p1[0];
+  double y1 = p1[1];
+  double x2 = p2[0];
+  double y2 = p2[1];
+  double x3 = p3[0];
+  double y3 = p3[1];
+
+  orthocenterPoint[0] = ((x2 * (x1 - x3) + y2 * (y1 - y3)) * (y3 - y2) -
+                         (y3 - y1) * (x1 * (x2 - x3) + y1 * (y2 - y3))) /
+                        ((x3 - x2) * (y3 - y1) - (y3 - y2) * (x3 - x1));
+
+  orthocenterPoint[1] = ((x2 * (x1 - x3) + y2 * (y1 - y3)) * (x3 - x2) -
+                         (x3 - x1) * (x1 * (x2 - x3) + y1 * (y2 - y3))) /
+                        ((y3 - y2) * (x3 - x1) - (x3 - x2) * (y3 - y1));
+
+  map<string, array<double, 2>> returnMap = {{"Orthocenter", orthocenterPoint}};
+
+  return returnMap;
+}
+
 int main() {
   array<double, 2> p1;
   cout << "Enter coordinates of point 1 (x y): ";
@@ -82,9 +107,9 @@ int main() {
   cout << "Enter coordinates of point 3 (x y): ";
   cin >> p3[0] >> p3[1];
 
-  map<string, array<double, 2>> (*centerFunctions[3])(
+  map<string, array<double, 2>> (*centerFunctions[4])(
       array<double, 2>, array<double, 2>, array<double, 2>) = {
-      incenter, centroid, circumcenter};
+      incenter, centroid, circumcenter, orthocenter};
 
   int numCenters = sizeof(centerFunctions) / sizeof(centerFunctions[0]);
 
