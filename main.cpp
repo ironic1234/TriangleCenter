@@ -1,10 +1,13 @@
+#include <math.h>
+
 #include <array>
 #include <iostream>
 #include <map>
-#include <math.h>
+
 using namespace std;
 
-map<string, array<double, 2>> incenter(array<double, 2> p1, array<double, 2> p2,
+map<string, array<double, 2>> incenter(array<double, 2> p1,
+                                       array<double, 2> p2,
                                        array<double, 2> p3) {
   double x1 = p1[0], y1 = p1[1];
   double x2 = p2[0], y2 = p2[1];
@@ -26,13 +29,42 @@ map<string, array<double, 2>> incenter(array<double, 2> p1, array<double, 2> p2,
   return returnMap;
 }
 
-map<string, array<double, 2>> centroid(array<double, 2> p1, array<double, 2> p2,
+map<string, array<double, 2>> centroid(array<double, 2> p1,
+                                       array<double, 2> p2,
                                        array<double, 2> p3) {
   array<double, 2> centroidPoint;
   centroidPoint[0] = (p1[0] + p2[0] + p3[0]) / 3;
   centroidPoint[1] = (p1[1] + p2[1] + p3[1]) / 3;
 
   map<string, array<double, 2>> returnMap = {{"Centroid", centroidPoint}};
+
+  return returnMap;
+}
+
+map<string, array<double, 2>> circumcenter(array<double, 2> p1,
+                                           array<double, 2> p2,
+                                           array<double, 2> p3) {
+  array<double, 2> circumcenterPoint;
+
+  double x1 = p1[0];
+  double y1 = p1[1];
+  double x2 = p2[0];
+  double y2 = p2[1];
+  double x3 = p3[0];
+  double y3 = p3[1];
+
+  circumcenterPoint[0] =
+      ((x1 * x1 + y1 * y1 - x2 * x2 - y2 * y2) * (y1 - y3) -
+       (x1 * x1 + y1 * y1 - x3 * x3 - y3 * y3) * (y1 - y2)) /
+      (2 * (x1 - x2) * (y1 - y3) - 2 * (x1 - x3) * (y1 - y2));
+
+  circumcenterPoint[1] =
+      ((x1 - x2) * (x1 * x1 + y1 * y1 - x3 * x3 - y3 * y3) -
+       (x1 - x3) * (x1 * x1 + y1 * y1 - x2 * x2 - y2 * y2)) /
+      (2 * (x1 - x2) * (y1 - y3) - 2 * (x1 - x3) * (y1 - y2));
+
+  map<string, array<double, 2>> returnMap = {
+      {"Circumcenter", circumcenterPoint}};
 
   return returnMap;
 }
@@ -50,18 +82,18 @@ int main() {
   cout << "Enter coordinates of point 3 (x y): ";
   cin >> p3[0] >> p3[1];
 
-  map<string, array<double, 2>> (*arr[2])(array<double, 2>, array<double, 2>,
-                                          array<double, 2>) = {incenter,
-                                                               centroid};
+  map<string, array<double, 2>> (*centerFunctions[3])(
+      array<double, 2>, array<double, 2>, array<double, 2>) = {
+      incenter, centroid, circumcenter};
 
-  int numCenters = sizeof(arr) / sizeof(arr[0]);
+  int numCenters = sizeof(centerFunctions) / sizeof(centerFunctions[0]);
 
   map<string, array<double, 2>> centers;
 
   for (int i = 0; i < numCenters; i++) {
-    map<string, array<double, 2>> center = arr[i](p1, p2, p3);
+    map<string, array<double, 2>> center = centerFunctions[i](p1, p2, p3);
     centers.insert({center.begin()->first, center.begin()->second});
-    cout << center.begin()->first << ": " << center.begin()->second[0] << " "
+    cout << center.begin()->first << ": " << center.begin()->second[0] << ", "
          << center.begin()->second[1] << "\n";
   }
 
