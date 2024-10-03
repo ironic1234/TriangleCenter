@@ -6,8 +6,7 @@
 
 using namespace std;
 
-map<string, array<double, 2>> incenter(array<double, 2> p1,
-                                       array<double, 2> p2,
+map<string, array<double, 2>> incenter(array<double, 2> p1, array<double, 2> p2,
                                        array<double, 2> p3) {
   double x1 = p1[0], y1 = p1[1];
   double x2 = p2[0], y2 = p2[1];
@@ -29,8 +28,7 @@ map<string, array<double, 2>> incenter(array<double, 2> p1,
   return returnMap;
 }
 
-map<string, array<double, 2>> centroid(array<double, 2> p1,
-                                       array<double, 2> p2,
+map<string, array<double, 2>> centroid(array<double, 2> p1, array<double, 2> p2,
                                        array<double, 2> p3) {
   array<double, 2> centroidPoint;
   centroidPoint[0] = (p1[0] + p2[0] + p3[0]) / 3;
@@ -41,9 +39,8 @@ map<string, array<double, 2>> centroid(array<double, 2> p1,
   return returnMap;
 }
 
-map<string, array<double, 2>> circumcenter(array<double, 2> p1,
-                                           array<double, 2> p2,
-                                           array<double, 2> p3) {
+map<string, array<double, 2>>
+circumcenter(array<double, 2> p1, array<double, 2> p2, array<double, 2> p3) {
   array<double, 2> circumcenterPoint;
 
   double x1 = p1[0];
@@ -69,9 +66,8 @@ map<string, array<double, 2>> circumcenter(array<double, 2> p1,
   return returnMap;
 }
 
-map<string, array<double, 2>> orthocenter(array<double, 2> p1,
-                                          array<double, 2> p2,
-                                          array<double, 2> p3) {
+map<string, array<double, 2>>
+orthocenter(array<double, 2> p1, array<double, 2> p2, array<double, 2> p3) {
   array<double, 2> orthocenterPoint;
 
   double x1 = p1[0];
@@ -108,8 +104,8 @@ int main() {
   cin >> p3[0] >> p3[1];
 
   map<string, array<double, 2>> (*centerFunctions[4])(
-      array<double, 2>, array<double, 2>, array<double, 2>) = {
-      incenter, centroid, circumcenter, orthocenter};
+      array<double, 2>, array<double, 2>,
+      array<double, 2>) = {incenter, centroid, circumcenter, orthocenter};
 
   int numCenters = sizeof(centerFunctions) / sizeof(centerFunctions[0]);
 
